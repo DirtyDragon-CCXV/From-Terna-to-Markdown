@@ -6,10 +6,9 @@ Scrip para extraer de la web, un plan evaluativo de "uam.terna.net" a Markdown
 para usar se debe crear un archivo de nombre "data.user" con los datos (usuario, contraseña) personal del estudiante.
 
 el interior del archivo debe contener el siguiente formato:
-`
-  usuario
-  contraseña
-`
+
+    usuario
+    contraseña
 
 <br>
 
