@@ -1,10 +1,19 @@
 # Plan de Evaluacion a Markdown
 
-Scrip para extraer de la web, un plan evaluativo de "uam.ternat.net" a Markdown
+Scrip para extraer de la web, un plan evaluativo de "uam.terna.net" a Markdown
+
+
+para usar se debe crear un archivo de nombre "data.user" con los datos (usuario, contraseña) personal del estudiante.
+
+el interior del archivo debe contener el siguiente formato:
+`
+  usuario
+  contraseña
+`
 
 <br>
 
-### LEER ANTES DE USAR ⬇️
+### LEER ANTES DE USAR
 
 # <b style="color:darkorange">Aviso</b>
 Este proyecto se ofrece de forma libre para estudiantes que deseen ahorrar tiempo y tener sus planes de evaluación disponibles sin conexión o organizados de mejor manera. 
