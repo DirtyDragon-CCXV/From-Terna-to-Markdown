@@ -58,7 +58,7 @@ try:
 
     #create template
     for x in td:
-        x = re.sub(r".*?\s\dM\s", "", x.text.replace("\n", "")) #remove id code
+        x = re.sub(r".*?\s\dM[ABC]?\s", "", x.text.replace("\n", "")) #remove id code
         x = re.sub(r"\s+", " ", x).strip()
         
         subjects[x] = {"c1" : None, "c2" : None, "c3" : None} #define key with the subject name and a sub dict with lapses to fill
