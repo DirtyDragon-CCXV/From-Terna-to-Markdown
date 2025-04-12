@@ -17,6 +17,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 try:
+    
     #set driver path
     service = webdriver.FirefoxService("geckodriver")
 
@@ -76,21 +77,28 @@ try:
         temp_str = []
         
         while loop == True:
-            t = td[i].text
+            t = td[i].text.strip()
             
-            if len(t) > 40:
+            if len(t) > 26:
                 date = re.search(r"\d{2}-\d{2}-\d{4}", t).group()
                 
-                t = re.split(r"\d{2}-\d{2}-\d{4}", t)[1]
-                t = re.sub(r"\s+", " ", t).replace(" ,", ",").replace(",", ", ")
-                temp_str.append(date + "-" + t + "\n")
+                #split the string in name activity and content
+                t = re.split(r"\s?\d{2}-\d{2}-\d{4}", t)
+                
+                t_activity = re.sub(r"(\d.?\s?)+\s", "", t[0])
+                t_content = re.sub(r"\s+", " ", t[1]).replace(" ,", ",").replace(",", ", ")
+                
+                if t_content == "":
+                    temp_str.append(t_activity + "/" + date + "/" + "None" + "\n")
+                else:
+                    temp_str.append(t_activity + "/" + date + "/" + t_content + "\n")
             
             else:
                 if re.search("C1. 1er Corte", t) or re.search("C2. 2do Corte", t):
                     string.append(temp_str)
                     temp_str = []
                 
-                if re.search("C3. 3er Corte", t):
+                elif re.search("C3. 3er Corte", t):
                     string.append(temp_str)
                     loop = False
                 
@@ -104,21 +112,31 @@ try:
     day_names = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
     lapses_names = {"c1": "1er Corte", "c2": "2do Corte", "c3": "3er Corte"}
 
+    # create the markdown file
     md_file = open("output.md", "w")
 
     for sub_name, corte in subjects.items():
         md_file.write(f'## <b style="color:pink">{sub_name}</b>\n')
         for corte, tema in corte.items():
             md_file.write(f"### **{lapses_names[corte]}**\n")
-            for valu in tema:
-                fecha = re.search(r"\d{2}-\d{2}-\d{4}", valu).group() 
+            for value in tema:
+                #extract the values from the string
+                fecha = re.search(r"\d{2}-\d{2}-\d{4}", value).group() 
                 dia_semana = datetime.strptime(fecha, "%d-%m-%Y").weekday()
+                tipo_actividad = re.split(r"/", value)[0]
+                contenido = re.sub(r".*\d{2}-\d{2}-\d{4}\/", "", value).replace("\n", "")
                 
-                title = f"- [ ] Evaluación ({day_names[dia_semana]} {re.sub(r"-", " - ", fecha)})\n"
+                title = f"- [ ] {tipo_actividad} ({day_names[dia_semana]} {re.sub(r"-", " - ", fecha)})\n"
                 
-                valu = f'    <p style="color: #888">[{re.sub(r"\d{2}-\d{2}-\d{4}-", "", valu).replace(" \n", "")}]</p>\n'
+                if contenido != "None":
+                    value = f'    <p style="color: #888">[{contenido}]</p>\n'
+                else:
+                    value = ""
+                    
                 md_file.write(title)
-                md_file.write(valu)
+                if value != "":
+                    md_file.write(value)
+                    
             md_file.write("</br>\n")
 
     md_file.close()

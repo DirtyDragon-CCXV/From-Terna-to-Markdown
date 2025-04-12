@@ -1,6 +1,6 @@
 # Plan de Evaluacion a Markdown
 
-Scrip para extraer de la web, un plan evaluativo de "uam.terna.net" a Markdown
+Scrip para extraer de la web un plan evaluativo de "uam.terna.net" a Markdown
 
 
 para primero deberas descargar geckodriver para firefox (este script solo funciona para firefox) [https://github.com/mozilla/geckodriver/releases/tag/v0.35.0], luego se debe crear un archivo de nombre "data.user" con los datos (usuario, contraseña) personal del estudiante.
